@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional SEO Audit Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #0096FF;
+            --dark-blue: #0078CC;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #1A1A1A;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --error: #FF0000;
+            --critical: #C62828;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: var(--white);
+            padding: 30px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 0 20px 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-tagline {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0.7;
+            padding: 0 20px 12px;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 14px 20px;
+            margin: 0 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.25);
+            border-left: 4px solid var(--white);
+            padding-left: 16px;
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .page-icon {
+            font-size: 32px;
+        }
+
+        .page-title {
+            flex: 1;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 4px;
+        }
+
+        .page-title p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Content Area */
+        .module-content {
+            display: none;
+        }
+
+        .module-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards & Sections */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--primary-blue);
+            border-radius: 2px;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .required {
+            color: var(--error);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(0, 150, 255, 0.1);
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #888;
+            margin-top: 6px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: var(--white);
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 150, 255, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border: 2px solid var(--medium-gray);
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: var(--medium-gray);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+            flex: none;
+        }
+
+        /* Messages */
+        .message {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
+            border-left: 4px solid;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #E8F5E9;
+            border-left-color: var(--success);
+            color: #2E7D32;
+        }
+
+        .message.error {
+            background: #FFEBEE;
+            border-left-color: var(--error);
+            color: var(--critical);
+        }
+
+        .message.info {
+            background: #E3F2FD;
+            border-left-color: var(--primary-blue);
+            color: var(--dark-blue);
+        }
+
+        .message.warning {
+            background: #FFF3E0;
+            border-left-color: var(--warning);
+            color: #E65100;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--light-gray);
+            padding: 12px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--dark-gray);
+            border-bottom: 2px solid var(--medium-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--medium-gray);
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: var(--light-gray);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.critical {
+            background: #FFEBEE;
+            color: var(--critical);
+        }
+
+        .badge.warning {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .badge.success {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .badge.info {
+            background: #E3F2FD;
+            color: var(--dark-blue);
+        }
+
+        /* Status Icons */
+        .status-icon {
+            font-size: 16px;
+            margin-right: 6px;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--medium-gray);
+            border-top-color: var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* Charts Container */
+        .chart-container {
+            margin: 20px 0;
+            height: 300px;
+            position: relative;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            height: 100%;
+            gap: 10px;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            min-height: 20px;
+            transition: all 0.3s;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        /* Donut Chart */
+        .donut-chart {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        .stat-change {
+            font-size: 12px;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .stat-change.up {
+            color: var(--success);
+        }
+
+        .stat-change.down {
+            color: var(--error);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--medium-gray);
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            padding: 14px 20px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-button:hover {
+            color: var(--dark-gray);
+        }
+
+        .tab-button.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .sidebar {
+                width: 250px;
+            }
+
+            .main-content {
+                margin-left: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .page-title h1 {
+                font-size: 24px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">🔍 SEO Dashboard</div>
+                <div class="sidebar-tagline">Complete Website Auditor</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Core Audits</div>
+                <div class="nav-item active" data-module="site-audit">
+                    <span class="nav-icon">🏢</span> Site Audit
+                </div>
+                <div class="nav-item" data-module="header-hierarchy">
+                    <span class="nav-icon">📑</span> Header Hierarchy
+                </div>
+                <div class="nav-item" data-module="image-seo">
+                    <span class="nav-icon">🖼️</span> Image SEO
+                </div>
+                <div class="nav-item" data-module="metadata">
+                    <span class="nav-icon">📝</span> Metadata Audit
+                </div>
+                <div class="nav-item" data-module="schema-markup">
+                    <span class="nav-icon">📋</span> Schema Markup
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Keyword Research</div>
+                <div class="nav-item" data-module="keyword-analysis">
+                    <span class="nav-icon">🔑</span> Analysis
+                </div>
+                <div class="nav-item" data-module="keyword-research">
+                    <span class="nav-icon">🔍</span> Research
+                </div>
+                <div class="nav-item" data-module="rank-tracker">
+                    <span class="nav-icon">📊</span> Rank Tracker
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Competitive</div>
+                <div class="nav-item" data-module="content-gap">
+                    <span class="nav-icon">🎯</span> Content Gap
+                </div>
+                <div class="nav-item" data-module="competitor">
+                    <span class="nav-icon">⚔️</span> Competitor
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Authority</div>
+                <div class="nav-item" data-module="backlinks">
+                    <span class="nav-icon">🔗</span> Backlinks
+                </div>
+                <div class="nav-item" data-module="brand-mentions">
+                    <span class="nav-icon">💬</span> Brand Mentions
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Tools</div>
+                <div class="nav-item" data-module="marketing-plan">
+                    <span class="nav-icon">📅</span> Marketing Plan
+                </div>
+                <div class="nav-item" data-module="report">
+                    <span class="nav-icon">📄</span> Report Builder
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            <!-- 1. SITE AUDIT MODULE -->
+            <div class="module-content active" id="site-audit">
+                <div class="page-header">
+                    <div class="page-icon">🏢</div>
+                    <div class="page-title">
+                        <h1>Site Audit</h1>
+                        <p>Complete technical SEO analysis with 140+ issue checks</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Audit URL Input</div>
+                    <form id="siteAuditForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Website URL <span class="required">*</span></label>
+                                <input type="url" id="auditUrl" placeholder="https://example.com" required>
+                                <div class="helper-text">Enter your domain with https:// or http://</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Crawl Scope</label>
+                                <select id="crawlScope">
+                                    <option value="domain">Domain Level</option>
+                                    <option value="subdomain">Subdomain Level</option>
+                                    <option value="folder">Folder Level</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Pages to Crawl</label>
+                                <input type="number" id="pagesToCrawl" value="50" min="1" max="500">
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">🚀 Start Audit</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="siteAuditMessage" class="message"></div>
+
+                <div id="siteAuditResults"></div>
+            </div>
+
+            <!-- 2. HEADER HIERARCHY MODULE -->
+            <div class="module-content" id="header-hierarchy">
+                <div class="page-header">
+                    <div class="page-icon">📑</div>
+                    <div class="page-title">
+                        <h1>Header Hierarchy Audit</h1>
+                        <p>Analyze heading structure and hierarchy issues</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Analyze Page Headers</div>
+                    <form id="headerHierarchyForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Page URL <span class="required">*</span></label>
+                                <input type="url" id="headerUrl" placeholder="https://example.com/page" required>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">🔍 Analyze Headers</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="headerMessage" class="message"></div>
+                <div id="headerResults"></div>
+            </div>
+
+            <!-- 3. IMAGE SEO MODULE -->
+            <div class="module-content" id="image-seo">
+                <div class="page-header">
+                    <div class="page-icon">🖼️</div>
+                    <div class="page-title">
+                        <h1>Image SEO Audit</h1>
+                        <p>Check image alt text, titles, and optimization</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Audit Images</div>
+                    <form id="imageSeoForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Page URL <span class="required">*</span></label>
+                                <input type="url" id="imageUrl" placeholder="https://example.com/page" required>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">📸 Scan Images</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="imageMessage" class="message"></div>
+                <div id="imageResults"></div>
+            </div>
+
+            <!-- 4. METADATA AUDIT MODULE -->
+            <div class="module-content" id="metadata">
+                <div class="page-header">
+                    <div class="page-icon">📝</div>
+                    <div class="page-title">
+                        <h1>Metadata Audit</h1>
+                        <p>Analyze meta tags, canonical, and Open Graph</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Check Metadata</div>
+                    <form id="metadataAuditForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Page URL <span class="required">*</span></label>
+                                <input type="url" id="metadataUrl" placeholder="https://example.com/page" required>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">🔍 Audit Metadata</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="metadataMessage" class="message"></div>
+                <div id="metadataResults"></div>
+            </div>
+
+            <!-- 5. SCHEMA MARKUP MODULE -->
+            <div class="module-content" id="schema-markup">
+                <div class="page-header">
+                    <div class="page-icon">📋</div>
+                    <div class="page-title">
+                        <h1>Schema Markup Audit</h1>
+                        <p>Detect and validate JSON-LD structured data</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Analyze Schema</div>
+                    <form id="schemaForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Page URL <span class="required">*</span></label>
+                                <input type="url" id="schemaUrl" placeholder="https://example.com/page" required>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">📊 Check Schema</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="schemaMessage" class="message"></div>
+                <div id="schemaResults"></div>
+            </div>
+
+            <!-- 6. KEYWORD ANALYSIS MODULE -->
+            <div class="module-content" id="keyword-analysis">
+                <div class="page-header">
+                    <div class="page-icon">🔑</div>
+                    <div class="page-title">
+                        <h1>Keyword Analysis</h1>
+                        <p>Identify and analyze keywords on your page</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Analyze Keywords</div>
+                    <form id="keywordAnalysisForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Page URL <span class="required">*</span></label>
+                                <input type="url" id="keywordAnalysisUrl" placeholder="https://example.com/page" required>
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Primary Keyword (Optional)</label>
+                                <input type="text" id="primaryKeywordInput" placeholder="e.g., digital marketing">
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">🔍 Analyze Keywords</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="keywordAnalysisMessage" class="message"></div>
+                <div id="keywordAnalysisResults"></div>
+            </div>
+
+            <!-- 7. KEYWORD RESEARCH MODULE -->
+            <div class="module-content" id="keyword-research">
+                <div class="page-header">
+                    <div class="page-icon">🔍</div>
+                    <div class="page-title">
+                        <h1>Keyword Research</h1>
+                        <p>Find keywords and analyze search intent</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Keyword Research</div>
+                    <form id="keywordResearchForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Seed Keyword <span class="required">*</span></label>
+                                <input type="text" id="seedKeyword" placeholder="e.g., digital marketing" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Number of Results</label>
+                                <select id="keywordResultCount">
+                                    <option value="10">10 Keywords</option>
+                                    <option value="25" selected>25 Keywords</option>
+                                    <option value="50">50 Keywords</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Search Intent Filter</label>
+                                <select id="intentFilter">
+                                    <option value="all">All</option>
+                                    <option value="informational">Informational</option>
+                                    <option value="transactional">Transactional</option>
+                                    <option value="navigational">Navigational</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">📊 Generate Keywords</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="keywordResearchMessage" class="message"></div>
+                <div id="keywordResearchResults"></div>
+            </div>
+
+            <!-- 8. RANK TRACKER MODULE -->
+            <div class="module-content" id="rank-tracker">
+                <div class="page-header">
+                    <div class="page-icon">📊</div>
+                    <div class="page-title">
+                        <h1>Rank Tracker</h1>
+                        <p>Track keyword positions over time</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Setup Tracking</div>
+                    <form id="rankTrackerForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Your Domain <span class="required">*</span></label>
+                                <input type="text" id="trackerDomain" placeholder="example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Keywords to Track <span class="required">*</span></label>
+                                <textarea id="trackingKeywords" rows="4" placeholder="Enter keywords (one per line)&#10;digital marketing&#10;content strategy&#10;SEO tips" required></textarea>
+                                <div class="helper-text">Enter one keyword per line</div>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">📈 Start Tracking</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="rankTrackerMessage" class="message"></div>
+                <div id="rankTrackerResults"></div>
+            </div>
+
+            <!-- 9. CONTENT GAP MODULE -->
+            <div class="module-content" id="content-gap">
+                <div class="page-header">
+                    <div class="page-icon">🎯</div>
+                    <div class="page-title">
+                        <h1>Content Gap Analysis</h1>
+                        <p>Find keywords competitors rank for but you don't</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Analyze Content Gaps</div>
+                    <form id="contentGapForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Your Domain <span class="required">*</span></label>
+                                <input type="text" id="gapDomain" placeholder="example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Competitor Domains (up to 3) <span class="required">*</span></label>
+                                <textarea id="competitorDomains" rows="4" placeholder="competitor1.com&#10;competitor2.com&#10;competitor3.com" required></textarea>
+                                <div class="helper-text">Enter one domain per line (max 3)</div>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">🔍 Analyze Gaps</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="contentGapMessage" class="message"></div>
+                <div id="contentGapResults"></div>
+            </div>
+
+            <!-- 10. COMPETITOR ANALYSIS MODULE -->
+            <div class="module-content" id="competitor">
+                <div class="page-header">
+                    <div class="page-icon">⚔️</div>
+                    <div class="page-title">
+                        <h1>Competitor Analysis</h1>
+                        <p>Analyze competitor SEO performance</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Analyze Competitor</div>
+                    <form id="competitorForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Competitor URL <span class="required">*</span></label>
+                                <input type="url" id="competitorUrl" placeholder="https://competitor.com" required>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">⚔️ Analyze</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="competitorMessage" class="message"></div>
+                <div id="competitorResults"></div>
+            </div>
+
+            <!-- 11. BACKLINKS MODULE -->
+            <div class="module-content" id="backlinks">
+                <div class="page-header">
+                    <div class="page-icon">🔗</div>
+                    <div class="page-title">
+                        <h1>Backlink Monitor</h1>
+                        <p>Track backlinks and domain authority</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Backlink Analysis</div>
+                    <form id="backlinksForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Your Domain <span class="required">*</span></label>
+                                <input type="text" id="backlinksUrl" placeholder="example.com" required>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">🔗 Get Backlinks</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="backlinksMessage" class="message"></div>
+                <div id="backlinksResults"></div>
+            </div>
+
+            <!-- 12. BRAND MENTIONS MODULE -->
+            <div class="module-content" id="brand-mentions">
+                <div class="page-header">
+                    <div class="page-icon">💬</div>
+                    <div class="page-title">
+                        <h1>Brand & Sentiment Monitor</h1>
+                        <p>Track brand mentions and sentiment</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Monitor Brand</div>
+                    <form id="brandMentionsForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Brand Name <span class="required">*</span></label>
+                                <input type="text" id="brandName" placeholder="Your Brand Name" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Domain (Optional)</label>
+                                <input type="text" id="brandDomain" placeholder="example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Include Unlinked Mentions</label>
+                                <select id="includeUnlinked">
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">💬 Monitor Brand</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="brandMentionsMessage" class="message"></div>
+                <div id="brandMentionsResults"></div>
+            </div>
+
+            <!-- 13. MARKETING PLAN MODULE -->
+            <div class="module-content" id="marketing-plan">
+                <div class="page-header">
+                    <div class="page-icon">📅</div>
+                    <div class="page-title">
+                        <h1>Marketing Plan Generator</h1>
+                        <p>Auto-generate prioritized monthly action checklist</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Generate Plan</div>
+                    <form id="marketingPlanForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Your Domain <span class="required">*</span></label>
+                                <input type="text" id="planDomain" placeholder="example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Planning Duration</label>
+                                <select id="planDuration">
+                                    <option value="1">1 Month</option>
+                                    <option value="3" selected>3 Months</option>
+                                    <option value="6">6 Months</option>
+                                    <option value="12">12 Months</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Team Size</label>
+                                <select id="teamSize">
+                                    <option value="1">Solo</option>
+                                    <option value="2-3" selected>2-3 People</option>
+                                    <option value="4-5">4-5 People</option>
+                                    <option value="5+">5+ People</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">📅 Generate Plan</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="marketingPlanMessage" class="message"></div>
+                <div id="marketingPlanResults"></div>
+            </div>
+
+            <!-- 14. REPORT BUILDER MODULE -->
+            <div class="module-content" id="report">
+                <div class="page-header">
+                    <div class="page-icon">📄</div>
+                    <div class="page-title">
+                        <h1>Report Generator</h1>
+                        <p>Export comprehensive audit reports</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Generate Report</div>
+                    <form id="reportForm">
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Your Domain <span class="required">*</span></label>
+                                <input type="text" id="reportDomain" placeholder="example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Report Sections to Include</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                                    <label style="display: flex; align-items: center; gap: 8px; text-transform: none; font-weight: 400;">
+                                        <input type="checkbox" name="reportSections" value="site-audit" checked> Site Audit
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; text-transform: none; font-weight: 400;">
+                                        <input type="checkbox" name="reportSections" value="headers" checked> Headers
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; text-transform: none; font-weight: 400;">
+                                        <input type="checkbox" name="reportSections" value="images" checked> Images
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; text-transform: none; font-weight: 400;">
+                                        <input type="checkbox" name="reportSections" value="metadata" checked> Metadata
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; text-transform: none; font-weight: 400;">
+                                        <input type="checkbox" name="reportSections" value="keywords" checked> Keywords
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; text-transform: none; font-weight: 400;">
+                                        <input type="checkbox" name="reportSections" value="schema" checked> Schema
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">📄 Generate Report</button>
+                            <button type="reset" class="btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="reportMessage" class="message"></div>
+                <div id="reportResults"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

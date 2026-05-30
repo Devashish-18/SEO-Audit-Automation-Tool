@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional SEO Audit Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div>
+                    <div class="sidebar-logo">📊 Dashboard</div>
+                    <div class="sidebar-tagline">SEO Audit System</div>
+                </div>
+                <button id="closeSidebarBtn" class="icon-button sidebar-close-btn" title="Close menu">✕</button>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Core Audits</div>
+                <a href="#" class="nav-item active" data-module="siteAudit">
+                    <span class="nav-icon">🔍</span>
+                    <span>Site Audit</span>
+                </a>
+                <a href="#" class="nav-item" data-module="headerHierarchy">
+                    <span class="nav-icon">📝</span>
+                    <span>Header Hierarchy</span>
+                </a>
+                <a href="#" class="nav-item" data-module="imageSEO">
+                    <span class="nav-icon">🖼️</span>
+                    <span>Image SEO</span>
+                </a>
+                <a href="#" class="nav-item" data-module="metadata">
+                    <span class="nav-icon">🏷️</span>
+                    <span>Metadata Audit</span>
+                </a>
+                <a href="#" class="nav-item" data-module="schema">
+                    <span class="nav-icon">✓</span>
+                    <span>Schema Markup</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Keyword Research</div>
+                <a href="#" class="nav-item" data-module="keywordAnalysis">
+                    <span class="nav-icon">💡</span>
+                    <span>Keyword Analysis</span>
+                </a>
+                <a href="#" class="nav-item" data-module="keywordResearch">
+                    <span class="nav-icon">🔎</span>
+                    <span>Keyword Research</span>
+                </a>
+                <a href="#" class="nav-item" data-module="rankTracker">
+                    <span class="nav-icon">📈</span>
+                    <span>Rank Tracker</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Competitive Analysis</div>
+                <a href="#" class="nav-item" data-module="contentGaps">
+                    <span class="nav-icon">📊</span>
+                    <span>Content Gaps</span>
+                </a>
+                <a href="#" class="nav-item" data-module="competitor">
+                    <span class="nav-icon">🎯</span>
+                    <span>Competitor Analysis</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Authority & Links</div>
+                <a href="#" class="nav-item" data-module="backlinks">
+                    <span class="nav-icon">🔗</span>
+                    <span>Backlinks</span>
+                </a>
+                <a href="#" class="nav-item" data-module="mentions">
+                    <span class="nav-icon">💬</span>
+                    <span>Brand Mentions</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Tools & Reports</div>
+                <a href="#" class="nav-item" data-module="marketing">
+                    <span class="nav-icon">📋</span>
+                    <span>Marketing Plan</span>
+                </a>
+                <a href="#" class="nav-item" data-module="report">
+                    <span class="nav-icon">📄</span>
+                    <span>Generate Report</span>
+                </a>
+                <a href="users.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>User Management</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button id="mobileMenuBtn" class="icon-button mobile-menu-btn" title="Menu">☰</button>
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" id="globalSearch" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <button id="notificationBtn" class="icon-button" title="Notifications">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div id="profileMenu" class="profile-menu" title="View profile">
+                        <div class="profile-avatar" id="profileInitial">AD</div>
+                        <span class="profile-name" id="profileName">Admin</span>
+                    </div>
+                    <a href="login.html" class="icon-button" title="Logout" data-logout>🚪</a>
+                </div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+                <div class="page-header">
+                    <h1 class="page-title" id="pageTitle">Site Audit</h1>
+                    <p class="page-subtitle" id="pageSubtitle">Perform comprehensive technical SEO analysis</p>
+                </div>
+
+                <!-- SITE AUDIT MODULE -->
+                <div id="siteAudit" class="module-content active">
+                    <div class="card">
+                        <h3 class="card-title">Start Site Audit</h3>
+                        <form id="siteAuditForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Website URL</label>
+                                    <input type="text" id="auditUrl" name="url" placeholder="https://example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Crawl Scope</label>
+                                    <select id="crawlScope" name="scope">
+                                        <option>Full Website</option>
+                                        <option>Subdomain Only</option>
+                                        <option>Custom Pages</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Pages to Crawl</label>
+                                    <input type="number" id="pagesToCrawl" name="pages" value="50" min="1" max="500">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Start Audit</button>
+                        </form>
+                    </div>
+                    <div id="siteAuditMessage" class="message"></div>
+                    <div id="siteAuditResults"></div>
+                </div>
+
+                <!-- HEADER HIERARCHY MODULE -->
+                <div id="headerHierarchy" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Generate Headers</h3>
+                        <form id="headerHierarchyForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Number of Headers Required</label>
+                                    <input type="number" id="headerCount" name="count" min="1" max="10" value="3" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Page Type</label>
+                                    <select id="headerPageType" name="pageType" required>
+                                        <option value="">Select page type</option>
+                                        <option value="course">Course</option>
+                                        <option value="service">Service</option>
+                                        <option value="product">Product</option>
+                                        <option value="blog">Blog</option>
+                                        <option value="landing">Landing Page</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Course/Service Name</label>
+                                    <input type="text" id="headerCourseName" name="courseName" placeholder="e.g., Online MBA Program" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Target Keyword</label>
+                                    <input type="text" id="headerKeyword" name="keyword" placeholder="e.g., best online MBA" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Brand Name (Optional)</label>
+                                    <input type="text" id="headerBrand" name="brand" placeholder="Your brand name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Highlights / Key Points</label>
+                                <textarea id="headerHighlights" name="highlights" placeholder="E.g., Industry-recognized cert&#10;Flexible schedule&#10;Expert instructors&#10;Affordable pricing" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Generate Headers</button>
+                        </form>
+                    </div>
+                    <div id="headerMessage" class="message"></div>
+                    <div id="headerResults"></div>
+                </div>
+
+                <!-- IMAGE SEO MODULE -->
+                <div id="imageSEO" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Image SEO Audit</h3>
+                        <form id="imageSeoForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Page URL</label>
+                                    <input type="text" id="imageUrl" name="url" placeholder="https://example.com" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Audit Images</button>
+                        </form>
+                    </div>
+                    <div id="imageMessage" class="message"></div>
+                    <div id="imageResults"></div>
+                </div>
+
+                <!-- METADATA MODULE -->
+                <div id="metadata" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Generate Metadata</h3>
+                        <form id="metadataAuditForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Page Type</label>
+                                    <select id="metadataPageType" name="pageType" required>
+                                        <option value="">Select page type</option>
+                                        <option value="course">Course</option>
+                                        <option value="service">Service</option>
+                                        <option value="product">Product</option>
+                                        <option value="blog">Blog</option>
+                                        <option value="landing">Landing Page</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Course/Service Name</label>
+                                    <input type="text" id="metadataCourseName" name="courseName" placeholder="e.g., Online MBA Program" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Target Keyword</label>
+                                    <input type="text" id="metadataKeyword" name="keyword" placeholder="e.g., best online MBA" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Brand Name (Optional)</label>
+                                    <input type="text" id="metadataBrand" name="brand" placeholder="Your brand name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Highlights / Key Points</label>
+                                <textarea id="metadataHighlights" name="highlights" placeholder="E.g., Industry-recognized cert&#10;Flexible schedule&#10;Expert instructors" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Generate Metadata</button>
+                        </form>
+                    </div>
+                    <div id="metadataMessage" class="message"></div>
+                    <div id="metadataResults"></div>
+                </div>
+
+                <!-- SCHEMA MARKUP MODULE -->
+                <div id="schema" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Schema Markup Detection</h3>
+                        <form id="schemaForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Page URL</label>
+                                    <input type="text" id="schemaUrl" name="url" placeholder="https://example.com" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Check Schema</button>
+                        </form>
+                    </div>
+                    <div id="schemaMessage" class="message"></div>
+                    <div id="schemaResults"></div>
+                </div>
+
+                <!-- KEYWORD ANALYSIS MODULE -->
+                <div id="keywordAnalysis" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Keyword Analysis</h3>
+                        <form id="keywordAnalysisForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Page URL</label>
+                                    <input type="text" id="keywordAnalysisUrl" name="url" placeholder="https://example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Primary Keyword</label>
+                                    <input type="text" id="primaryKeywordInput" name="keyword" placeholder="Enter keyword" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Analyze</button>
+                        </form>
+                    </div>
+                    <div id="keywordAnalysisMessage" class="message"></div>
+                    <div id="keywordAnalysisResults"></div>
+                </div>
+
+                <!-- KEYWORD RESEARCH MODULE -->
+                <div id="keywordResearch" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Keyword Research</h3>
+                        <form id="keywordResearchForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Target Keyword</label>
+                                    <input type="text" id="seedKeyword" name="keyword" placeholder="Enter keyword" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Research</button>
+                        </form>
+                    </div>
+                    <div id="keywordResearchMessage" class="message"></div>
+                    <div id="keywordResearchResults"></div>
+                </div>
+
+                <!-- RANK TRACKER MODULE -->
+                <div id="rankTracker" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Rank Tracker Setup</h3>
+                        <form id="rankTrackerForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Domain</label>
+                                    <input type="text" id="trackerDomain" name="domain" placeholder="example.com" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Keywords (one per line)</label>
+                                <textarea id="trackingKeywords" name="keywords" placeholder="keyword1&#10;keyword2&#10;keyword3" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Setup Tracker</button>
+                        </form>
+                    </div>
+                    <div id="rankTrackerMessage" class="message"></div>
+                    <div id="rankTrackerResults"></div>
+                </div>
+
+                <!-- CONTENT GAPS MODULE -->
+                <div id="contentGaps" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Content Gap Analysis</h3>
+                        <form id="contentGapForm">
+                            <div class="form-group">
+                                <label>Your Domain</label>
+                                <input type="text" id="gapDomain" name="domain" placeholder="example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Competitor Domains (up to 3)</label>
+                                <textarea id="competitorDomains" name="competitors" placeholder="competitor1.com&#10;competitor2.com&#10;competitor3.com" rows="4" required></textarea>
+                                <div style="font-size: 12px; color: var(--gray-500); margin-top: 8px;">Enter one domain per line (max 3)</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Analyze Gaps</button>
+                        </form>
+                    </div>
+                    <div id="contentGapMessage" class="message"></div>
+                    <div id="contentGapResults"></div>
+                </div>
+
+                <!-- COMPETITOR ANALYSIS MODULE -->
+                <div id="competitor" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Competitor Analysis</h3>
+                        <form id="competitorForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Competitor URL</label>
+                                    <input type="text" id="competitorUrl" name="url" placeholder="https://competitor.com" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Analyze</button>
+                        </form>
+                    </div>
+                    <div id="competitorMessage" class="message"></div>
+                    <div id="competitorResults"></div>
+                </div>
+
+                <!-- BACKLINKS MODULE -->
+                <div id="backlinks" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Backlink Analysis</h3>
+                        <form id="backlinksForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Domain</label>
+                                    <input type="text" id="backlinksUrl" name="domain" placeholder="example.com" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Analyze Backlinks</button>
+                        </form>
+                    </div>
+                    <div id="backlinksMessage" class="message"></div>
+                    <div id="backlinksResults"></div>
+                </div>
+
+                <!-- BRAND MENTIONS MODULE - Now FAQs Generation -->
+                <div id="mentions" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Generate FAQs</h3>
+                        <form id="brandMentionsForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Number of FAQs Required</label>
+                                    <input type="number" id="faqCount" name="count" min="1" max="15" value="5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Page Type</label>
+                                    <select id="faqPageType" name="pageType" required>
+                                        <option value="">Select page type</option>
+                                        <option value="course">Course</option>
+                                        <option value="service">Service</option>
+                                        <option value="product">Product</option>
+                                        <option value="blog">Blog</option>
+                                        <option value="landing">Landing Page</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Course/Service Name</label>
+                                    <input type="text" id="faqCourseName" name="courseName" placeholder="e.g., Online MBA Program" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Target Keyword</label>
+                                    <input type="text" id="faqKeyword" name="keyword" placeholder="e.g., best online MBA" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Brand Name (Optional)</label>
+                                    <input type="text" id="faqBrand" name="brand" placeholder="Your brand name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Highlights / Key Points</label>
+                                <textarea id="faqHighlights" name="highlights" placeholder="E.g., Industry-recognized cert&#10;Flexible schedule&#10;Expert instructors&#10;Job placement" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Generate FAQs</button>
+                        </form>
+                    </div>
+                    <div id="brandMentionsMessage" class="message"></div>
+                    <div id="brandMentionsResults"></div>
+                </div>
+
+                <!-- MARKETING PLAN MODULE - Now Blog Generation -->
+                <div id="marketing" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Generate Blog Post</h3>
+                        <form id="marketingPlanForm">
+                            <div class="form-group">
+                                <label>Blog Topic</label>
+                                <input type="text" id="blogTopic" name="topic" placeholder="E.g., Best Online Education Platform For Students" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Page URL</label>
+                                <input type="text" id="blogUrl" name="url" placeholder="/blog/best-online-education-platform" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Primary Keywords (one per line)</label>
+                                <textarea id="blogPrimaryKeywords" name="primaryKeywords" placeholder="best online education platforms&#10;best online platform for learning&#10;top online education platforms" rows="4" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Secondary Keywords (one per line)</label>
+                                <textarea id="blogSecondaryKeywords" name="secondaryKeywords" placeholder="best online courses&#10;best online course platforms&#10;online learning management system" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>H1 Heading</label>
+                                <input type="text" id="blogH1" name="h1" placeholder="E.g., Best Online Education Platform for Students" required>
+                            </div>
+                            <div class="form-group">
+                                <label>H2 Topics (one per line - include at least 3 main sections)</label>
+                                <textarea id="blogH2Topics" name="h2Topics" placeholder="What Is an Online Education Platform?&#10;Online Education Platform vs Learning Management System&#10;Why Our Platform Stands Out&#10;Future of Online Education&#10;FAQ" rows="5" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>FAQs to Include (one per line)</label>
+                                <textarea id="blogFaqList" name="faqList" placeholder="Can I get admission without entrance exam?&#10;What are the most popular courses?&#10;What is the admission process?" rows="4"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Generate Blog</button>
+                            <button type="button" class="btn btn-secondary" onclick="exportBlogToDOCX()" style="margin-left: 8px;">Export as DOCX</button>
+                        </form>
+                    </div>
+                    <div id="marketingPlanMessage" class="message"></div>
+                    <div id="marketingPlanResults" style="max-height: 600px; overflow-y: auto;"></div>
+                </div>
+
+                <!-- REPORT MODULE -->
+                <div id="report" class="module-content hidden">
+                    <div class="card">
+                        <h3 class="card-title">Generate Comprehensive Report</h3>
+                        <form id="reportForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Domain</label>
+                                    <input type="text" id="reportDomain" name="domain" placeholder="example.com" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Generate Report</button>
+                        </form>
+                    </div>
+                    <div id="reportMessage" class="message"></div>
+                    <div id="reportResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support & Help - Professional Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">📊 Dashboard</div>
+                <div class="sidebar-tagline">SEO Audit System</div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Admin</div>
+                <a href="users.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>User Management</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+                <a href="notifications.html" class="nav-item">
+                    <span class="nav-icon">🔔</span>
+                    <span>Notifications</span>
+                </a>
+                <a href="support.html" class="nav-item active">
+                    <span class="nav-icon">💬</span>
+                    <span>Support</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" placeholder="Search support...">
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" title="Notifications">🔔<span class="notification-badge">3</span></button>
+                    <div class="profile-menu">
+                        <div class="profile-avatar" id="profileInitial">AD</div>
+                        <span class="profile-name" id="profileName">Admin</span>
+                    </div>
+                    <a href="login.html" class="icon-button" title="Logout" data-logout>🚪</a>
+                </div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+                <div class="page-header">
+                    <h1 class="page-title">Support & Help</h1>
+                    <p class="page-subtitle">Get help with your dashboard</p>
+                </div>
+
+                <div class="grid grid-2">
+                    <!-- SUPPORT TICKET FORM -->
+                    <div class="card">
+                        <h3 class="card-title">Create Support Ticket</h3>
+                        <form id="ticketForm" onsubmit="submitTicket(event)">
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label>Subject</label>
+                                <input type="text" name="subject" placeholder="Brief description" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label>Category</label>
+                                <select name="category" required>
+                                    <option>Select category</option>
+                                    <option>Technical Issue</option>
+                                    <option>Feature Request</option>
+                                    <option>Bug Report</option>
+                                    <option>Account Help</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label>Priority</label>
+                                <select name="priority" required>
+                                    <option>Low</option>
+                                    <option>Medium</option>
+                                    <option>High</option>
+                                    <option>Critical</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label>Message</label>
+                                <textarea name="message" rows="4" placeholder="Describe your issue..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                        </form>
+                    </div>
+
+                    <!-- QUICK LINKS -->
+                    <div class="card">
+                        <h3 class="card-title">Quick Help</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <a href="#" style="padding: 12px; border-radius: 8px; background: var(--gray-100); color: var(--primary); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                                📖 <span>Knowledge Base</span>
+                            </a>
+                            <a href="#" style="padding: 12px; border-radius: 8px; background: var(--gray-100); color: var(--primary); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                                🎥 <span>Video Tutorials</span>
+                            </a>
+                            <a href="#" style="padding: 12px; border-radius: 8px; background: var(--gray-100); color: var(--primary); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                                📞 <span>Contact Support</span>
+                            </a>
+                            <a href="#" style="padding: 12px; border-radius: 8px; background: var(--gray-100); color: var(--primary); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                                🐛 <span>Report a Bug</span>
+                            </a>
+                            <a href="#" style="padding: 12px; border-radius: 8px; background: var(--gray-100); color: var(--primary); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                                ⭐ <span>Feature Request</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTIVE TICKETS -->
+                <div class="card">
+                    <h3 class="card-title">Your Support Tickets</h3>
+                    <div class="table-container">
+                        <table id="ticketsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Subject</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ticketsTableBody">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- FAQ ACCORDION -->
+                <div class="card">
+                    <h3 class="card-title">Frequently Asked Questions</h3>
+                    <div id="faqContainer" style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        const supportTickets = [
+            { id: 'TKT-001', subject: 'Dashboard not loading', category: 'Technical Issue', status: 'Open', created: '2024-04-01' },
+            { id: 'TKT-002', subject: 'Export feature request', category: 'Feature Request', status: 'In Progress', created: '2024-03-28' },
+            { id: 'TKT-003', subject: 'User cannot login', category: 'Account Help', status: 'Resolved', created: '2024-03-25' }
+        ];
+
+        const faqs = [
+            { question: 'How do I reset my password?', answer: 'Go to Settings > Security > Change Password. Enter your current password and set a new one.' },
+            { question: 'Can I export reports to PDF?', answer: 'Yes, all reports have export options. Click the Export PDF button on the Reports page.' },
+            { question: 'How often are backups taken?', answer: 'System backups are performed daily at 2:00 AM UTC.' },
+            { question: 'Can I change my account email?', answer: 'Yes, visit Settings > Profile and update your email address. You\'ll need to verify the new email.' },
+            { question: 'Is there an API available?', answer: 'Yes, API documentation is available in the Knowledge Base. Contact support for API keys.' }
+        ];
+
+        function submitTicket(event) {
+            event.preventDefault();
+            const formData = getFormData('ticketForm');
+            const newTicket = {
+                id: 'TKT-' + String(Math.floor(Math.random() * 10000)).padStart(3, '0'),
+                subject: formData.subject,
+                category: formData.category,
+                status: 'Open',
+                created: new Date().toISOString().split('T')[0]
+            };
+            supportTickets.unshift(newTicket);
+            renderTickets();
+            resetForm('ticketForm');
+            showAlert('Support ticket submitted! We\'ll be in touch soon.', 'success');
+        }
+
+        function renderTickets() {
+            const tbody = document.getElementById('ticketsTableBody');
+            tbody.innerHTML = supportTickets.map(ticket => `
+                <tr>
+                    <td>${ticket.id}</td>
+                    <td>${ticket.subject}</td>
+                    <td><span class="badge badge-primary">${ticket.category}</span></td>
+                    <td>
+                        <span class="badge ${
+                            ticket.status === 'Open' ? 'badge-warning' :
+                            ticket.status === 'In Progress' ? 'badge-primary' :
+                            'badge-success'
+                        }">${ticket.status}</span>
+                    </td>
+                    <td>${formatDate(ticket.created)}</td>
+                    <td><button class="btn btn-sm" onclick="viewTicket('${ticket.id}')">View</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function renderFAQ() {
+            const container = document.getElementById('faqContainer');
+            container.innerHTML = faqs.map((faq, index) => `
+                <div style="border: 1px solid var(--gray-300); border-radius: 8px; overflow: hidden;">
+                    <button onclick="toggleFAQ(${index})" style="width: 100%; padding: 16px; background: var(--gray-100); border: none; cursor: pointer; text-align: left; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+                        <span>${faq.question}</span>
+                        <span id="faqArrow${index}" style="transition: transform 0.3s;">▼</span>
+                    </button>
+                    <div id="faqAnswer${index}" style="display: none; padding: 16px; background: white; color: var(--gray-500);">
+                        ${faq.answer}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleFAQ(index) {
+            const answer = document.getElementById('faqAnswer' + index);
+            const arrow = document.getElementById('faqArrow' + index);
+            const isOpen = answer.style.display === 'block';
+            answer.style.display = isOpen ? 'none' : 'block';
+            arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        function viewTicket(id) {
+            showAlert(`Viewing ticket ${id}...`, 'info');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTickets();
+            renderFAQ();
+        });
+    </script>
+</body>
+</html>

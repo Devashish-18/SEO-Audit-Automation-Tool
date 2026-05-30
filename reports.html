@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics - Professional Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">📊 Dashboard</div>
+                <div class="sidebar-tagline">SEO Audit System</div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Admin</div>
+                <a href="users.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>User Management</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+                <a href="reports.html" class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    <span>Reports</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" placeholder="Search reports...">
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" title="Notifications">🔔<span class="notification-badge">3</span></button>
+                    <div class="profile-menu">
+                        <div class="profile-avatar" id="profileInitial">AD</div>
+                        <span class="profile-name" id="profileName">Admin</span>
+                    </div>
+                    <a href="login.html" class="icon-button" title="Logout" data-logout>🚪</a>
+                </div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+                <div class="page-header">
+                    <h1 class="page-title">Reports & Analytics</h1>
+                    <p class="page-subtitle">View key metrics and performance data</p>
+                </div>
+
+                <!-- STATS GRID -->
+                <div class="grid grid-4">
+                    <div class="stat-card">
+                        <div class="stat-value">12,543</div>
+                        <div class="stat-label">Total Visits</div>
+                    </div>
+                    <div class="stat-card" style="border-left-color: #4CAF50;">
+                        <div class="stat-value">4,283</div>
+                        <div class="stat-label">Conversions</div>
+                    </div>
+                    <div class="stat-card" style="border-left-color: #FF9800;">
+                        <div class="stat-value">34.1%</div>
+                        <div class="stat-label">Conversion Rate</div>
+                    </div>
+                    <div class="stat-card" style="border-left-color: #00D4FF;">
+                        <div class="stat-value">$85,420</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                </div>
+
+                <!-- CHARTS SECTION -->
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3 class="card-title">Traffic Trend</h3>
+                        <div class="chart-container" style="background: linear-gradient(90deg, rgba(0,150,255,0.1) 0%, rgba(0,212,255,0.1) 100%); border-radius: 8px; padding: 16px;">
+                            <svg viewBox="0 0 400 200" style="width: 100%; height: 200px;">
+                                <polyline points="0,150 50,120 100,80 150,100 200,60 250,90 300,40 350,70 400,30" 
+                                    fill="none" stroke="#0096FF" stroke-width="3" stroke-linejoin="round"/>
+                                <polyline points="0,150 50,120 100,80 150,100 200,60 250,90 300,40 350,70 400,30" 
+                                    fill="url(#gradientFill)" opacity="0.3"/>
+                                <defs>
+                                    <linearGradient id="gradientFill" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#0096FF;stop-opacity:0.3" />
+                                        <stop offset="100%" style="stop-color:#0096FF;stop-opacity:0" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Conversion by Source</h3>
+                        <div class="chart-container" style="background: linear-gradient(90deg, rgba(76,175,80,0.1) 0%, rgba(76,175,80,0.05) 100%); border-radius: 8px; padding: 16px;">
+                            <svg viewBox="0 0 200 200" style="width: 100%; height: 200px;">
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#0096FF" stroke-width="30" stroke-dasharray="150 336" opacity="0.7"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#4CAF50" stroke-width="30" stroke-dasharray="120 336" stroke-dashoffset="-150" opacity="0.7"/>
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#FF9800" stroke-width="30" stroke-dasharray="66 336" stroke-dashoffset="-270" opacity="0.7"/>
+                                <text x="100" y="100" text-anchor="middle" dy="0.3em" font-size="24" font-weight="bold" fill="#0096FF">45%</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DATE RANGE FILTER -->
+                <div class="card">
+                    <h3 class="card-title">Filter Reports</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input type="date" id="startDate" value="2024-01-01">
+                        </div>
+                        <div class="form-group">
+                            <label>End Date</label>
+                            <input type="date" id="endDate">
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-end;">
+                            <button class="btn btn-primary" onclick="updateReports()">Apply Filter</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: 12px;">
+                        <button class="btn btn-secondary btn-sm">Export PDF</button>
+                        <button class="btn btn-secondary btn-sm">Export CSV</button>
+                        <button class="btn btn-secondary btn-sm">Export Excel</button>
+                    </div>
+                </div>
+
+                <!-- REPORTS TABLE -->
+                <div class="card">
+                    <h3 class="card-title">Available Reports</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Report Name</th>
+                                    <th>Type</th>
+                                    <th>Created</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportsTableBody">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        const reports = [
+            { id: 1, name: 'Q1 2024 Performance Report', type: 'Performance', created: '2024-04-01', status: 'Completed' },
+            { id: 2, name: 'SEO Audit Report', type: 'SEO', created: '2024-03-28', status: 'Completed' },
+            { id: 3, name: 'User Engagement Analysis', type: 'Analytics', created: '2024-03-25', status: 'Completed' },
+            { id: 4, name: 'Conversion Funnel Report', type: 'Conversion', created: '2024-03-20', status: 'Completed' },
+            { id: 5, name: 'Traffic Sources Analysis', type: 'Traffic', created: '2024-03-15', status: 'Processing' }
+        ];
+
+        function renderReports() {
+            const tbody = document.getElementById('reportsTableBody');
+            tbody.innerHTML = reports.map(report => `
+                <tr>
+                    <td>${report.name}</td>
+                    <td><span class="badge badge-primary">${report.type}</span></td>
+                    <td>${formatDate(report.created)}</td>
+                    <td>
+                        <span class="badge ${report.status === 'Completed' ? 'badge-success' : 'badge-warning'}">
+                            ${report.status}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm" onclick="downloadReport(${report.id})" style="margin-right: 8px;">Download</button>
+                        <button class="btn btn-sm btn-secondary" onclick="viewReport(${report.id})">View</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function downloadReport(id) {
+            const report = reports.find(r => r.id === id);
+            showAlert(`Downloading ${report.name}...`, 'info');
+        }
+
+        function viewReport(id) {
+            const report = reports.find(r => r.id === id);
+            showAlert(`Opening ${report.name}...`, 'info');
+        }
+
+        function updateReports() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            showAlert(`Reports filtered from ${startDate} to ${endDate}`, 'success');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderReports();
+            const today = new Date();
+            document.getElementById('endDate').value = today.toISOString().split('T')[0];
+        });
+    </script>
+</body>
+</html>

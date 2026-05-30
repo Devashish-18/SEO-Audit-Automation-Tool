@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Professional Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">📊 Dashboard</div>
+                <div class="sidebar-tagline">SEO Audit System</div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Admin</div>
+                <a href="users.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>User Management</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span>Reports</span>
+                </a>
+                <a href="profile.html" class="nav-item active">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+                <a href="notifications.html" class="nav-item">
+                    <span class="nav-icon">🔔</span>
+                    <span>Notifications</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" title="Notifications">🔔<span class="notification-badge">3</span></button>
+                    <div class="profile-menu">
+                        <div class="profile-avatar" id="profileInitial">AD</div>
+                        <span class="profile-name" id="profileName">Admin</span>
+                    </div>
+                    <a href="login.html" class="icon-button" title="Logout" data-logout>🚪</a>
+                </div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+                <div class="page-header">
+                    <h1 class="page-title">My Profile</h1>
+                    <p class="page-subtitle">Manage your account information</p>
+                </div>
+
+                <!-- PROFILE HEADER -->
+                <div class="card" style="text-align: center; margin-bottom: 32px;">
+                    <div style="font-size: 80px; margin-bottom: 16px;">👤</div>
+                    <h2 style="font-size: 24px; margin-bottom: 4px;">Admin User</h2>
+                    <p style="color: var(--gray-500); margin-bottom: 20px;">admin@example.com</p>
+                    <button class="btn btn-primary btn-sm" onclick="alert('Profile image upload - Coming soon')">Upload Profile Photo</button>
+                </div>
+
+                <!-- PROFILE INFORMATION -->
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3 class="card-title">Personal Information</h3>
+                        <form id="profileForm" onsubmit="updateProfile(event)">
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label>First Name</label>
+                                <input type="text" value="Admin" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label>Last Name</label>
+                                <input type="text" value="User" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label>Email</label>
+                                <input type="email" value="admin@example.com" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label>Phone</label>
+                                <input type="tel" value="+1 (555) 123-4567">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Account Statistics</h3>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div style="padding-bottom: 12px; border-bottom: 1px solid var(--gray-300);">
+                                <div style="color: var(--gray-500); font-size: 12px;">Member Since</div>
+                                <div style="font-weight: 600; margin-top: 4px;">January 15, 2024</div>
+                            </div>
+                            <div style="padding-bottom: 12px; border-bottom: 1px solid var(--gray-300);">
+                                <div style="color: var(--gray-500); font-size: 12px;">Last Login</div>
+                                <div style="font-weight: 600; margin-top: 4px;">Today at 2:30 PM</div>
+                            </div>
+                            <div style="padding-bottom: 12px; border-bottom: 1px solid var(--gray-300);">
+                                <div style="color: var(--gray-500); font-size: 12px;">Account Status</div>
+                                <div style="font-weight: 600; margin-top: 4px;">
+                                    <span class="badge badge-success">Active</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="color: var(--gray-500); font-size: 12px;">Role</div>
+                                <div style="font-weight: 600; margin-top: 4px;">System Administrator</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTIVITY TIMELINE -->
+                <div class="card">
+                    <h3 class="card-title">Recent Activity</h3>
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div style="display: flex; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-300);">
+                            <div style="font-size: 24px;">📊</div>
+                            <div>
+                                <div style="font-weight: 600;">Generated Report</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">2 hours ago - Q1 Performance Report</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-300);">
+                            <div style="font-size: 24px;">👥</div>
+                            <div>
+                                <div style="font-weight: 600;">Added New User</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">5 hours ago - John Doe</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-300);">
+                            <div style="font-size: 24px;">⚙️</div>
+                            <div>
+                                <div style="font-weight: 600;">Updated Settings</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">1 day ago - Theme preferences</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 16px;">
+                            <div style="font-size: 24px;">🔐</div>
+                            <div>
+                                <div style="font-weight: 600;">Changed Password</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">3 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        function updateProfile(event) {
+            event.preventDefault();
+            showAlert('Profile updated successfully!', 'success');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const profileName = sessionStorage.getItem('userName') || 'Admin';
+            document.getElementById('profileName').textContent = profileName;
+            document.getElementById('profileInitial').textContent = profileName.substring(0, 2).toUpperCase();
+        });
+    </script>
+</body>
+</html>

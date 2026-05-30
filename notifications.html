@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Professional Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">📊 Dashboard</div>
+                <div class="sidebar-tagline">SEO Audit System</div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Admin</div>
+                <a href="users.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>User Management</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+                <a href="notifications.html" class="nav-item active">
+                    <span class="nav-icon">🔔</span>
+                    <span>Notifications</span>
+                </a>
+                <a href="support.html" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    <span>Support</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" id="notificationSearch" placeholder="Search notifications...">
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" title="Notifications">🔔<span class="notification-badge">3</span></button>
+                    <div class="profile-menu">
+                        <div class="profile-avatar" id="profileInitial">AD</div>
+                        <span class="profile-name" id="profileName">Admin</span>
+                    </div>
+                    <a href="login.html" class="icon-button" title="Logout" data-logout>🚪</a>
+                </div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+                <div class="page-header">
+                    <h1 class="page-title">Notifications</h1>
+                    <p class="page-subtitle">Manage your alerts and messages</p>
+                </div>
+
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 class="card-title">All Notifications</h3>
+                                        <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-sm btn-secondary active" onclick="filterNotifications('all', this)">All</button>
+                                <button class="btn btn-sm btn-secondary" onclick="filterNotifications('unread', this)">Unread</button>
+                                <button class="btn btn-sm btn-secondary" onclick="filterNotifications('important', this)">Important</button>
+                            </div>
+                    </div>
+
+                    <div id="notificationsList" style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        const NOTIFICATION_STORAGE_KEY = 'seoAuditNotifications';
+
+        const defaultNotifications = [
+            { 
+                id: 1, 
+                title: 'System Update', 
+                message: 'Dashboard system updated to version 2.1', 
+                type: 'info', 
+                unread: true, 
+                important: false, 
+                timestamp: new Date(Date.now() - 30 * 60000),
+                icon: '📢'
+            },
+            { 
+                id: 2, 
+                title: 'New User Added', 
+                message: 'John Doe was added to the system', 
+                type: 'success', 
+                unread: true, 
+                important: false, 
+                timestamp: new Date(Date.now() - 2 * 3600000),
+                icon: '👥'
+            },
+            { 
+                id: 3, 
+                title: 'Security Alert', 
+                message: 'Someone accessed your account from a new location', 
+                type: 'warning', 
+                unread: true, 
+                important: true, 
+                timestamp: new Date(Date.now() - 5 * 3600000),
+                icon: '🔐'
+            },
+            { 
+                id: 4, 
+                title: 'Report Ready', 
+                message: 'Your Q1 2024 report is ready for download', 
+                type: 'success', 
+                unread: false, 
+                important: false, 
+                timestamp: new Date(Date.now() - 24 * 3600000),
+                icon: '📊'
+            },
+            { 
+                id: 5, 
+                title: 'Maintenance Scheduled', 
+                message: 'System maintenance scheduled for Sunday 2:00 AM', 
+                type: 'warning', 
+                unread: false, 
+                important: true, 
+                timestamp: new Date(Date.now() - 2 * 24 * 3600000),
+                icon: '🔧'
+            }
+        ];
+
+        let notifications = loadNotifications();
+        let filter = 'all';
+
+        function loadNotifications() {
+            try {
+                const raw = localStorage.getItem(NOTIFICATION_STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        return parsed.map(n => ({
+                            ...n,
+                            timestamp: new Date(n.timestamp)
+                        }));
+                    }
+                }
+            } catch (error) {
+                console.warn('Could not load notifications:', error);
+            }
+            return [...defaultNotifications];
+        }
+
+        function saveNotifications() {
+            try {
+                localStorage.setItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(notifications));
+            } catch (error) {
+                console.warn('Could not save notifications:', error);
+            }
+        }
+
+        function renderNotifications() {
+            const container = document.getElementById('notificationsList');
+            let filtered = notifications;
+
+            if (filter === 'unread') {
+                filtered = notifications.filter(n => n.unread);
+            } else if (filter === 'important') {
+                filtered = notifications.filter(n => n.important);
+            }
+
+            updateNotificationBadge();
+
+            container.innerHTML = filtered.map(notif => `
+                <div style="padding: 16px; border-radius: 8px; background: ${notif.unread ? 'var(--gray-100)' : 'white'}; border: 1px solid var(--gray-300); display: flex; gap: 12px; align-items: flex-start;">
+                    <div style="font-size: 24px;">${notif.icon}</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 4px;">
+                            <h4 style="font-weight: 600; margin-bottom: 0;">${notif.title} ${notif.important ? '<span class="badge badge-danger" style="font-size: 10px; padding: 2px 6px;">Important</span>' : ''}</h4>
+                            <span style="font-size: 12px; color: var(--gray-500);">${formatTime(notif.timestamp)}</span>
+                        </div>
+                        <p style="color: var(--gray-500); margin-bottom: 8px;">${notif.message}</p>
+                        <div style="display: flex; gap: 12px;">
+                            ${notif.unread ? `<button class="btn btn-sm btn-secondary" onclick="markAsRead(${notif.id})">Mark as Read</button>` : ''}
+                            <button class="btn btn-sm btn-secondary" onclick="deleteNotification(${notif.id})">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--gray-500);">No notifications found</div>';
+            }
+        }
+
+        function filterNotifications(type, button) {
+            filter = type;
+            renderNotifications();
+            document.querySelectorAll('[onclick*="filterNotifications"]').forEach(btn => btn.classList.remove('active'));
+            if (button) {
+                button.classList.add('active');
+            }
+        }
+
+        function markAsRead(id) {
+            const notif = notifications.find(n => n.id === id);
+            if (notif) {
+                notif.unread = false;
+                saveNotifications();
+                renderNotifications();
+                showAlert('Marked as read', 'success', 1500);
+            }
+        }
+
+        function deleteNotification(id) {
+            const index = notifications.findIndex(n => n.id === id);
+            if (index !== -1) {
+                notifications.splice(index, 1);
+                saveNotifications();
+                renderNotifications();
+                showAlert('Notification deleted', 'success', 1500);
+            }
+        }
+
+        function updateNotificationBadge() {
+            const badge = document.querySelector('.notification-badge');
+            if (!badge) return;
+            const unreadCount = notifications.filter(n => n.unread).length;
+            badge.textContent = unreadCount;
+            badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+        }
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNotifications();
+            
+            const searchInput = document.getElementById('notificationSearch');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const container = document.getElementById('notificationsList');
+                    const items = container.querySelectorAll('div[style*="padding: 16px"]');
+                    
+                    items.forEach(item => {
+                        const text = item.textContent.toLowerCase();
+                        item.style.display = text.includes(term) ? '' : 'none';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

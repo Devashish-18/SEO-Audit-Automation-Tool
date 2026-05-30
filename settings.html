@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Professional Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">📊 Dashboard</div>
+                <div class="sidebar-tagline">SEO Audit System</div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-label">Admin</div>
+                <a href="users.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>User Management</span>
+                </a>
+                <a href="settings.html" class="nav-item active">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span>Reports</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+                <a href="notifications.html" class="nav-item">
+                    <span class="nav-icon">🔔</span>
+                    <span>Notifications</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" placeholder="Search settings...">
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" title="Notifications">🔔<span class="notification-badge">3</span></button>
+                    <div class="profile-menu">
+                        <div class="profile-avatar" id="profileInitial">AD</div>
+                        <span class="profile-name" id="profileName">Admin</span>
+                    </div>
+                    <a href="login.html" class="icon-button" title="Logout" data-logout>🚪</a>
+                </div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+                <div class="page-header">
+                    <h1 class="page-title">Settings</h1>
+                    <p class="page-subtitle">Manage your application preferences</p>
+                </div>
+
+                <div class="card">
+                    <div class="tabs">
+                        <button class="tab-button active" onclick="switchTab(event, 'profileTab')">Profile</button>
+                        <button class="tab-button" onclick="switchTab(event, 'themeTab')">Theme</button>
+                        <button class="tab-button" onclick="switchTab(event, 'notificationsTab')">Notifications</button>
+                        <button class="tab-button" onclick="switchTab(event, 'securityTab')">Security</button>
+                    </div>
+
+                    <!-- PROFILE TAB -->
+                    <div id="profileTab" class="tab-content active">
+                        <h3 style="margin-bottom: 20px;">Profile Settings</h3>
+                        <form id="profileForm" onsubmit="saveSettings(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" id="fullName" value="Admin User" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="settingsEmail" value="admin@example.com" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Company</label>
+                                    <input type="text" id="company" value="Your Company" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="tel" id="phone" value="+1 (555) 123-4567">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <!-- THEME TAB -->
+                    <div id="themeTab" class="tab-content">
+                        <h3 style="margin-bottom: 20px;">Theme Settings</h3>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: flex; align-items: center; gap: 12px;">
+                                <span>Dark Mode</span>
+                                <label class="toggle">
+                                    <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Color Scheme</label>
+                            <div style="display: flex; gap: 12px; margin-top: 12px;">
+                                <input type="color" value="#0096FF" onchange="changeColor(this.value)">
+                                <span id="colorValue">#0096FF</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NOTIFICATIONS TAB -->
+                    <div id="notificationsTab" class="tab-content">
+                        <h3 style="margin-bottom: 20px;">Notification Preferences</h3>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <label style="display: flex; align-items: center; gap: 12px;">
+                                <input type="checkbox" checked> Email notifications for new updates
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 12px;">
+                                <input type="checkbox" checked> System alerts and notifications
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 12px;">
+                                <input type="checkbox"> Marketing and promotional emails
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 12px;">
+                                <input type="checkbox" checked> Security alerts
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 12px;">
+                                <input type="checkbox" checked> Weekly reports
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top: 20px;" onclick="saveNotificationPrefs()">Save Preferences</button>
+                    </div>
+
+                    <!-- SECURITY TAB -->
+                    <div id="securityTab" class="tab-content">
+                        <h3 style="margin-bottom: 20px;">Security Settings</h3>
+                        <div style="margin-bottom: 24px;">
+                            <h4 style="margin-bottom: 12px;">Change Password</h4>
+                            <form id="passwordForm" onsubmit="changePassword(event)">
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <label>Current Password</label>
+                                    <input type="password" required>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <label>New Password</label>
+                                    <input type="password" id="newPassword" required>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <label>Confirm Password</label>
+                                    <input type="password" id="confirmPassword" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </form>
+                        </div>
+                        <div style="border-top: 1px solid var(--gray-300); padding-top: 20px;">
+                            <h4 style="margin-bottom: 12px;">Two-Factor Authentication</h4>
+                            <p style="margin-bottom: 12px; color: var(--gray-500);">Enhance your account security</p>
+                            <label style="display: flex; align-items: center; gap: 12px;">
+                                <input type="checkbox"> Enable 2FA
+                            </label>
+                            <button class="btn btn-secondary" style="margin-top: 12px;">Setup 2FA</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        function switchTab(event, tabName) {
+            event.preventDefault();
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function saveSettings(event) {
+            event.preventDefault();
+            const settings = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('settingsEmail').value,
+                company: document.getElementById('company').value,
+                phone: document.getElementById('phone').value
+            };
+            saveToLocalStorage('userSettings', settings);
+            showAlert('Settings saved successfully!', 'success');
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.getElementById('darkModeToggle').checked;
+            document.body.style.filter = isDark ? 'invert(1) hue-rotate(180deg)' : 'none';
+            saveToLocalStorage('darkMode', isDark);
+        }
+
+        function changeColor(color) {
+            document.documentElement.style.setProperty('--primary', color);
+            document.getElementById('colorValue').textContent = color;
+            saveToLocalStorage('primaryColor', color);
+        }
+
+        function saveNotificationPrefs() {
+            showAlert('Notification preferences saved!', 'success');
+        }
+
+        function changePassword(event) {
+            event.preventDefault();
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword !== confirmPassword) {
+                showAlert('Passwords do not match!', 'warning');
+                return;
+            }
+            
+            showAlert('Password changed successfully!', 'success');
+            document.getElementById('passwordForm').reset();
+        }
+
+        window.addEventListener('load', () => {
+            const settings = getFromLocalStorage('userSettings');
+            if (settings) {
+                document.getElementById('fullName').value = settings.fullName || '';
+                document.getElementById('settingsEmail').value = settings.email || '';
+                document.getElementById('company').value = settings.company || '';
+                document.getElementById('phone').value = settings.phone || '';
+            }
+            
+            const darkMode = getFromLocalStorage('darkMode');
+            if (darkMode) {
+                document.getElementById('darkModeToggle').checked = darkMode;
+                toggleDarkMode();
+            }
+        });
+    </script>
+</body>
+</html>
